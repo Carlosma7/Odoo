@@ -1,0 +1,28 @@
+<odoo>
+	<data>
+		<!-- Project list view -->
+		<record model="ir.ui.view" id="list_projects_tree_inherit">
+			<field name="name"> projects.project_inherit.tree</field>
+			<field name="model">projects.project</field>
+			<field name="inherit_id" ref="projects.list_projects_tree"/>
+			<field name="arch" type="xml">
+				<!-- Adding the new extended value -->
+				<xpath expr="//field[@name='locality']" position="before">
+		    		<field name="limit_date"/>
+				</xpath>
+            </field>
+		</record>
+		<!-- Project form view for creation -->
+		<record model="ir.ui.view" id="list_projects_form_inherit">
+			<field name="name">projects.project_inherit.form</field>
+			<field name="model">projects.project</field>
+			<field name="inherit_id" ref="projects.list_projects_form"/>
+			<field name="arch" type="xml">
+				<!-- Adding the new extended value -->
+				<xpath expr="//field[@name='locality']" position="before">
+		    		<field name="limit_date"/>
+				</xpath>
+            </field>
+		 </record>
+	</data>
+</odoo>

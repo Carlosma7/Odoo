@@ -1,0 +1,153 @@
+<odoo>
+	<data>
+		<!-- Employee list view -->
+		<record model="ir.ui.view" id="list_employees_tree">
+			<field name="name"> projects.employee.tree</field>
+			<field name="model">projects.employee</field>
+			<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="nif"/>
+				<field name="birthdate"/>
+				<field name="gender"/>
+				<field name="address"/>
+				<field name="salary"/>
+				<field name ="christmas_extra"/>
+				<field name ="total_earning"/>
+				<field name="director"/>
+				<field name="department_id"/>
+				<field name="supervisor_id"/>
+				<field name="supervised_ids"/>
+				<field name="project_ids"/>
+			</tree>
+		</field>
+		</record>
+		<!-- Employee form view for creation -->
+		<record model="ir.ui.view" id="list_employees_form">
+			<field name="name">projects.employee.form</field>
+			<field name="model">projects.employee</field>
+			<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title">
+						<label for="name" class="oe_edit_only" string="Nombre">Nombres</label>
+						<h1><field name="name"/></h1>
+					</div>
+					<separator string="Información personal" colspan="2" />
+					<group colspan="2" col="2">
+						<field name="nif"/>
+						<field name="birthdate"/>
+						<field name="gender"/>
+						<field name="address"/>
+						<field name="salary"/>
+						<field name="christmas_extra"/>
+						<field name="director"/>
+					</group>
+					<separator string="Department"/>
+					<field name="department_id"/>
+					<separator string="Supervisor"/>
+					<field name="supervisor_id"/>
+					<separator string="Supervised"/>
+					<field name="supervised_ids"/>
+					<separator string="projects"/>
+					<field name="project_ids"/>
+				</sheet>
+			</form>
+			</field>
+		 </record>
+		 <!-- Kanban view -->
+		  <record model="ir.ui.view" id="list_employees_kanban">
+            <field name="name">projects.employee.kanban</field>
+            <field name="model">projects.employee</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="department_id">
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div
+                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                                <div class="oe_dropdown_kanban">
+                                    <!-- Dropdown menu -->
+                                    <div class="oe_dropdown_toggle">
+                                        <i class="fa fa-bars fa-lg"/>
+                                        <ul class="oe_dropdown_menu">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker"
+                                                    data-field="color"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <!-- Attributes to show -->
+                                    Nombre:
+                                    <field name="name"/>
+                                    <br/>
+                                    DNI:
+                                    <field name="nif"/>
+                                    <br/>
+                                    Director:
+                                    <field name="director"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- Graph view -->
+		 <record model="ir.ui.view" id="list_employees_graphic">
+            <field name="name">projects.employee.graph</field>
+            <field name="model">projects.employee</field>
+            <field name="arch" type="xml">
+                <graph string="Sexo employees">
+                	<field name="name"/>
+                    <field name="gender" type="col"/>
+                </graph>
+            </field>
+        </record>
+		 <!-- Search view -->
+		 <record model="ir.ui.view" id="employee_search_view">
+            <field name="name">projects.search</field>
+            <field name="model">projects.employee</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Nombre employee"/>
+                    <field name="nif"/>
+                    <field name="director" widget="selection"/>
+                    <!-- Filter for best paid employees -->
+                    <filter name="best_paid" string="Best Paid" domain="[('salario','>=','800.0')]"/>
+                    <!-- Filter for scholar employees -->
+                    <filter name="scholars" string="Scholars" domain="[('salario','&lt;=','400.0')]"/>
+                    <!-- Group employees by departments -->
+    				<group string="Group By">
+       					<filter name="group_by_department" string="Department" context="{'group_by': 'department_id'}"/>
+    				</group>
+    				<!-- Group employees by supervisor -->
+    				<group string="Group By">
+       					<filter name="group_by_supervisor" string="Supervisor" context="{'group_by': 'supervisor_id'}"/>
+    				</group>
+    				<!-- Group employees by gender -->
+    				<group string="Group By">
+       					<filter name="group_by_gender" string="Gender" context="{'group_by': 'gender'}"/>
+    				</group>
+                </search>
+            </field>
+        </record>
+		 <!-- Action window -->
+		 <record model="ir.actions.act_window" id="action_window_employees">
+			<field name="name">Employee management</field>
+			<field name="res_model">projects.employee</field>
+			<field name="view_mode">tree,form,kanban,graph</field>
+		</record>
+		<!-- Action view -->
+		 <menuitem name="Employees" id="employees"
+		parent="menu_root" action="projects.action_window_employees"/>
+	</data>
+</odoo>

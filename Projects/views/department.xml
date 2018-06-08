@@ -1,0 +1,95 @@
+<odoo>
+	<data>
+		<!-- Department list view -->
+		<record model="ir.ui.view" id="list_departments_tree">
+			<field name="name"> projects.department.tree</field>
+			<field name="model">projects.department</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="number"/>
+					<field name="member_number"/>
+					<field name="project_number"/>
+					<field name="director_id"/>
+					<field name="member_ids"/>
+					<field name="project_ids"/>
+				</tree>
+			</field>
+		</record>
+		<!-- Department form view for creation -->
+		<record model="ir.ui.view" id="list_departments_form">
+			<field name="name">projects.department.form</field>
+			<field name="model">projects.department</field>
+			<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title">
+						<label for="name" class="oe_edit_only" string="Title">Name</label>
+						<h1><field name="name"/></h1>
+					</div>
+					<separator string="Department information" colspan="2" />
+					<group colspan="2" col="2">
+						<field name="number"/>
+					</group>
+					<separator string="Director" />
+					<field name="director_id"/>
+					<separator string="Members" />
+					<field name="member_ids"/>
+					<separator string="Projects" />
+					<field name="project_ids"/>
+				</sheet>
+			</form>
+			</field>
+		 </record>
+		 <!-- Graph view -->
+		 <record model="ir.ui.view" id="list_departments_graphic">
+            <field name="name">projects.department.graph</field>
+            <field name="model">projects.department</field>
+            <field name="arch" type="xml">
+                <graph string="Total employees">
+                	<field name="name"/>
+                    <field name="member_number" type="measure"/>
+                    <field name="project_number"/>
+                </graph>
+            </field>
+        </record>
+		 <!-- Action window -->
+		 <record model="ir.actions.act_window" id="action_window_departments">
+			<field name="name">Department management</field>
+			<field name="res_model">projects.department</field>
+			<field name="view_mode">tree,form,graph</field>
+		</record>
+
+		<!-- Action view -->
+		 <menuitem name="Departments" id="departments"
+		parent="menu_root"  action="projects.action_window_departments"/>
+
+		 <!-- Wizard for employees adding -->
+		 <record model="ir.ui.view" id="wizard_form_view">
+            <field name="name">wizard.form</field>
+            <field name="model">projects.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Add Employees">
+                    <group>
+                        <field name="department_id"/>
+                        <field name="employee_ids"/>
+                    </group>
+                    <footer>
+                        <button name="Subscribe" type="object"
+                                string="Create" class="oe_highlight"/>
+                        or
+                        <button special="Cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- Wizard action window -->
+        <act_window id="launch_session_wizard"
+                    name="Add employees"
+                    src_model="projects.department"
+                    res_model="projects.wizard"
+                    view_mode="form"
+                    target="new"
+                    key2="client_action_multi"/>
+	</data>
+</odoo>
