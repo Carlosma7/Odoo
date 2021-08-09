@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="action_hospital_males" model="ir.actions.act_window">
+		<field name="name">Males</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">hospital.patient</field>
+		<field name="view_mode">tree,kanban,form</field>
+		<!--Hide values depending on context-->
+		<field name="context">{'default_gender': 'male', 'hide_gender': 1}</field>
+		<!--Domain-->
+		<!--OR <field name="domain">['|', (condition1), (condition2)]</field>-->
+		<field name="domain">[('gender','=', 'male')]</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create your first Males!
+			</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_males"
+			  name="Males"
+			  parent="hospital_patient_root"
+			  action="action_hospital_males"
+			  sequence="20"/>
+
+	<record id="action_hospital_females" model="ir.actions.act_window">
+		<field name="name">Females</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">hospital.patient</field>
+		<field name="view_mode">tree,kanban,form</field>
+		<!--Hide values depending on context-->
+		<field name="context">{'default_gender': 'female', 'hide_gender': 1}</field>
+		<!--Domain-->
+		<!--OR <field name="domain">['|', (condition1), (condition2)]</field>-->
+		<field name="domain">[('gender','=', 'female')]</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create your first Females!
+			</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_females"
+			  name="Females"
+			  parent="hospital_patient_root"
+			  action="action_hospital_females"
+			  sequence="40"/>
+</odoo>

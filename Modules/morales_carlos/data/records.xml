@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="contact_1" model="morales_carlos.mycontact">
+			<field name="firstname">John</field>
+			<field name="lastname">Martin</field>
+			<field name="address">Valencia</field>
+			<field name="email">john@gmail.com</field>
+			<field name="phone">678293018</field>
+		</record>
+
+		<record id="contact_2" model="morales_carlos.mycontact">
+			<field name="firstname">Freddie</field>
+			<field name="lastname">Brooks</field>
+			<field name="address">London</field>
+			<field name="email">freddie.brooks@gmail.com</field>
+			<field name="phone">678111118</field>
+		</record>
+
+		<record id="contact_3" model="morales_carlos.mycontact">
+			<field name="firstname">Michael</field>
+			<field name="lastname">Robertson</field>
+			<field name="address"></field>
+			<field name="email">mike@gmail.com</field>
+			<field name="phone"></field>
+		</record>
+	</data>
+</odoo>

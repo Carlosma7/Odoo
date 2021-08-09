@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <record id="import_xml_wizard_form" model="ir.ui.view">
+       <field name="name">import.xml.wizard</field>
+       <field name="model">import.xml.wizard</field>
+       <field name="arch" type="xml">
+           <form string="Import XML">
+               <group>
+                   <group>
+                       <field name="file"/>
+                   </group>
+               </group>
+               <footer>
+                   <button
+                       name="action_import_xml"
+                       string="Import"
+                       type="object"
+                       class="btn-primary"
+                   />
+               </footer>
+           </form>
+       </field>
+   </record>
+   <record id="action_import_xml" model="ir.actions.act_window">
+       <field name="name">Import XML</field>
+       <field name="res_model">import.xml.wizard</field>
+       <field name="view_mode">form</field>
+       <field name="view_id" ref="import_xml_wizard_form" />
+       <field name="target">new</field>
+   </record>
+
+   <!--Subsubmenu item-->
+	<menuitem id="menu_import_xml"
+		name="Import XML"
+		parent="morales_carlos_mycontact_root"
+		action="action_import_xml"
+		sequence="20"/>
+</odoo>

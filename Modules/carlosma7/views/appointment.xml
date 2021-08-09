@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!--Action button-->
+	<record id="action_confirm_appointments" model="ir.actions.server">
+		<field name="name">Confirm Appointment</field>
+		<field name="type">ir.actions.server</field>
+		<field name="model_id" ref="model_hospital_appointment"/>
+		<field name="binding_model_id" ref="model_hospital_appointment"/>
+		<field name="state">code</field>
+		<field name="code">records.action_confirm()</field>
+	</record>
+
+	<!--Tree view-->
+	<record id="appointment_tree" model="ir.ui.view">
+		<!--View name-->
+		<field name="name">hospital.appointment.tree</field>
+		<!--Model name-->
+		<field name="model">hospital.appointment</field>
+		<!--View architecture-->
+		<field name="arch" type="xml">
+			<!--Tree-->
+			<!--Mass/Multi edit-->
+			<tree multi_edit="1">
+				<header>
+					<button name="action_done" string="Mark As Done" class="btn-primary" type="object"/>
+				</header>
+				<!--Fields-->
+				<field name="name"/>
+				<field name="patient_id"/>
+				<!--Show/Hide Field-->
+				<field name="date_appointment" optional="show"/>
+				<field name="date_checkup" optional="hide"/>
+				<field name="note"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<!--Form view-->
+	<record id="appointment_form" model="ir.ui.view">
+		<!--View name-->
+		<field name="name">hospital.appointment.form</field>
+		<!--Model name-->
+		<field name="model">hospital.appointment</field>
+		<!--View architecture-->
+		<field name="arch" type="xml">
+			<!--Form-->
+			<form>
+				<!--Header-->
+				<header>
+					<!--Header action buttons-->
+					<!--confirm to get confirmation button-->
+					<button id="button_confirm" name="action_confirm" string="Confirm" states="draft" class="btn-primary" type="object"
+							confirm="Are you sure you want to confirm?"/>
+					<button id="button_done" name="action_done" string="Mark As Done" states="confirm" class="btn-primary" type="object"/>
+					<button id="button_draft" name="action_draft" string="Set To Draft" states="cancel" class="btn-primary" type="object"/>
+					<button id="button_cancel" name="action_cancel" string="Cancel" states="draft,done,confirm" type="object"/>
+					<button id="button_url" name="action_url" string="Open URL" class="btn-primary" type="object"/>
+					<!--Header status-->
+					<field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm"/>
+				</header>
+				<!--Sheet visualization-->
+				<sheet>
+					<!--Sheet title-->
+					<div class="oe_title">
+						<h1>
+							<field name="name" readonly="1"/>
+						</h1>
+					</div>
+					<!--Division in groups-->
+					<group>
+						<group>
+							<field name="patient_id"/>
+							<field name="age"/>
+							<!--Readonly field and force save with onchange-->
+							<field name="gender" readonly="1" force_save="1"/>
+						</group>
+						<group>
+							<field name="doctor_id"/>
+							<!-- Hide depending on context-->
+							<field name="date_appointment"/>
+							<field name="date_checkup"/>
+						</group>
+					</group>
+					<!--Notebook for sections in page-->
+					<notebook>
+						<page string="Doctor Prescription" name="doctor_prescription">
+							<group>
+								<!--Many2one field-->
+								<field name="prescription"/>
+							</group>
+						</page>
+						<page string="Medicine" name="medicine">
+							<field name="prescription_line_ids">
+								<!--Editable to indicate where to put new records-->
+								<tree editable="bottom">
+									<field name="name"/>
+									<field name="qty"/>
+								</tree>
+								<form>
+									<group>
+										<group>
+											<field name="name"/>
+										</group>
+										<group>
+											<field name="qty"/>
+										</group>
+									</group>
+								</form>
+							</field>
+						</page>
+						<page string="Other Info" name="other_info">
+							<field name="note"/>
+						</page>
+					</notebook>
+				</sheet>
+				<!--Chatter mail track-->
+				<div class="oe_chatter">
+					<!--Follows-->
+					<field name="message_follower_ids"/>
+					<!--Activity-->
+					<field name="activity_ids"/>
+					<!--Messages-->
+					<field name="message_ids"/>
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<!--Search view-->
+	<record id="appointment_search" model="ir.ui.view">
+		<!--View name-->
+		<field name="name">hospital.appointment.search</field>
+		<!--View model-->
+		<field name="model">hospital.appointment</field>
+		<!--View architecture-->
+		<field name="arch" type="xml">
+			<!--Search-->
+			<search string="Patients">
+				<!--Search fields-->
+				<field name="name"/>
+				<field name="note"/>
+				<separator/>
+			</search>
+		</field>
+	</record>
+
+	<!--Kanban view-->
+	<record id="appointment_kanban" model="ir.ui.view">
+		<!--View name-->
+		<field name="name">hospital.appointment.kanban</field>
+		<!--View name-->
+		<field name="model">hospital.appointment</field>
+		<!--View architecture-->
+		<field name="arch" type="xml">
+			<!--Kanban-->
+			<kanban>
+				<!--Fields-->
+				<field name="id"/>
+				<field name="name"/>
+				<field name="patient_id"/>
+				<field name="note"/>
+				<field name="state"/>
+				<field name="date_appointment"/>
+				<field name="date_checkup"/>
+				<templates>
+					<t t-name="kanban-box">
+						<div t-attf-class="oe_kanban_global_click">
+							<!--Kanban details-->
+							<div class="oe_kanban_details">
+								<!--Title-->
+								<div class="oe_title">
+									<h1>
+										<field name="name"/>
+									</h1>
+								</div>
+								<!--Content-->
+								<ul>
+									<li>Patient: <field name="patient_id"/></li>
+									<li>Date Appointment: <field name="date_appointment"/></li>
+									<li>Check Up Time: <field name="date_checkup"/></li>
+								</ul>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<!--Action window-->
+	<record id="appointment_action" model="ir.actions.act_window">
+		<!--Name-->
+		<field name="name">Hospital</field>
+		<!--Type-->
+		<field name="type">ir.actions.act_window</field>
+		<!--Model-->
+		<field name="res_model">hospital.appointment</field>
+		<!--View modes-->
+		<field name="view_mode">tree,kanban,form</field>
+		<!--Context(Group by, filters, etc)-->
+		<!--Default field value (default_field)-->
+		<field name="context">{}</field>
+		<!--Help-->
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create your first appointment!
+			</p>
+		</field>
+	</record>
+
+	<!--Submenu item-->
+	<menuitem id="hospital_appointment_root"
+		name="Appointments"
+		parent="hospital_root"
+		sequence="30"/>
+
+	<!--Subsubmenu item-->
+	<menuitem id="hospital_appointment"
+		name="Appointments"
+		parent="hospital_appointment_root"
+		action="appointment_action"
+		sequence="10"/>
+</odoo>

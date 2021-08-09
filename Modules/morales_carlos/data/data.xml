@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record id="seq_morales_carlos_mycontacts" model="ir.sequence">
+			<field name="name">Contacts Sequence</field>
+			<field name="code">morales_carlos.mycontact</field>
+			<field name="prefix">CO</field>
+			<field name="padding">5</field>
+			<field name="company_id" eval="False"/>
+		</record>
+	</data>
+</odoo>

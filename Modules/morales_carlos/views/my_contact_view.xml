@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!--Tree view-->
+	<record id="mycontact_tree" model="ir.ui.view">
+		<!--View name-->
+		<field name="name">morales_carlos.mycontact.tree</field>
+		<!--Model name-->
+		<field name="model">morales_carlos.mycontact</field>
+		<!--View architecture-->
+		<field name="arch" type="xml">
+			<!--Tree-->
+			<tree sample="1">
+				<!--Fields-->
+				<field name="name"/>
+				<field name="firstname"/>
+				<field name="lastname"/>
+				<field name="email"/>
+				<field name="address"/>
+				<field name="phone"/>
+			</tree>
+		</field>
+	</record>
+
+	<!--Form view-->
+	<record id="mycontact_form" model="ir.ui.view">
+		<!--View name-->
+		<field name="name">morales_carlos.mycontact.form</field>
+		<!--Model name-->
+		<field name="model">morales_carlos.mycontact</field>
+		<!--View architecture-->
+		<field name="arch" type="xml">
+			<!--Form-->
+			<form>
+				<header>
+                   <button name="%(action_import_xml)d" string="Import XML"
+						class="btn-primary" type="action"/>
+				</header>
+				<!--Sheet visualization-->
+				<sheet>
+					<!--Sheet title-->
+					<div class="oe_title">
+						<h1>
+							<field name="name" readonly="1"/>
+						</h1>
+					</div>
+					<!--Division in groups-->
+					<group>
+						<group>
+							<field name="firstname"/>
+							<field name="lastname"/>
+							<field name="email"/>
+						</group>
+						<group>
+							<field name="address"/>
+							<field name="phone"/>
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<!--Kanban view-->
+	<record id="mycontact_kanban" model="ir.ui.view">
+		<!--View name-->
+		<field name="name">morales_carlos.mycontact.kanban</field>
+		<!--View name-->
+		<field name="model">morales_carlos.mycontact</field>
+		<!--View architecture-->
+		<field name="arch" type="xml">
+			<!--Kanban-->
+			<!--Default order-->
+			<kanban default_order="id asc">
+				<!--Fields-->
+				<field name="id"/>
+				<field name="name"/>
+				<field name="firstname"/>
+				<field name="lastname"/>
+				<field name="email"/>
+				<field name="address"/>
+				<field name="phone"/>
+				<templates>
+					<t t-name="kanban-box">
+						<div t-attf-class="oe_kanban_global_click">
+							<!--Kanban details-->
+							<div class="oe_kanban_details">
+								<!--Title-->
+								<div class="oe_title">
+									<h1>
+										<field name="name"/>
+									</h1>
+								</div>
+								<!--Content-->
+								<ul>
+									<li>First Name: <field name="firstname"/></li>
+									<li>Last Name: <field name="lastname"/></li>
+									<li>Email: <field name="email"/></li>
+									<li>Phone: <field name="phone"/></li>
+								</ul>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<!--Action window-->
+	<record id="mycontact_action" model="ir.actions.act_window">
+		<!--Name-->
+		<field name="name">My Contacts</field>
+		<!--Type-->
+		<field name="type">ir.actions.act_window</field>
+		<!--Model-->
+		<field name="res_model">morales_carlos.mycontact</field>
+		<!--View modes-->
+		<field name="view_mode">tree,kanban,form</field>
+		<!--Help-->
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create your first contact!
+			</p>
+		</field>
+	</record>
+
+	<!--Menu item-->
+	<menuitem id="morales_carlos_root"
+		name="My Contacts"/>
+
+	<!--Submenu item-->
+	<menuitem id="morales_carlos_mycontact_root"
+		name="Contacts"
+		parent="morales_carlos_root"
+		sequence="10"/>
+
+	<!--Subsubmenu item-->
+	<menuitem id="morales_carlos_mycontact"
+		name="Contacts"
+		parent="morales_carlos_mycontact_root"
+		action="mycontact_action"
+		sequence="10"/>
+</odoo>
